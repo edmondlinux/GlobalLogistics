@@ -1,4 +1,3 @@
-
 import { jsPDF } from 'jspdf';
 
 class TrackingPDFGenerator {
@@ -184,7 +183,7 @@ doc.text(`Generated on: ${new Date().toLocaleDateString(undefined, { month: 'lon
     ];
 
     this.addTable(tableData, ['Property', 'Value']);
-    this.currentY += 10;
+    this.currentY += 5;
   }
 
   // Add service details
@@ -210,7 +209,7 @@ doc.text(`Generated on: ${new Date().toLocaleDateString(undefined, { month: 'lon
     }
 
     this.addTable(tableData, ['Property', 'Value']);
-    this.currentY += 10;
+    this.currentY += 5;
   }
 
   // Add tracking history
@@ -315,7 +314,7 @@ doc.text(`Generated on: ${new Date().toLocaleDateString(undefined, { month: 'lon
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
       doc.text(`Page ${i} of ${pageCount}`, this.pageWidth - 30, this.pageHeight - 5);
-      
+
       doc.text(`Report Date: ${new Date().toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}`, this.pageWidth / 2 - 25, this.pageHeight - 5);
 
     }
