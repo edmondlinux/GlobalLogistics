@@ -1,6 +1,7 @@
 
 import { useState } from "react";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from "lucide-react";
+import axios from "../lib/axios";
 
 const ContactForm = () => {
 	const [formData, setFormData] = useState({
@@ -10,6 +11,9 @@ const ContactForm = () => {
 		message: ''
 	});
 
+	const [loading, setLoading] = useState(false);
+	const [status, setStatus] = useState(null); // 'success', 'error', or null
+
 	const handleChange = (e) => {
 		setFormData({
 			...formData,
@@ -17,10 +21,32 @@ const ContactForm = () => {
 		});
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Handle form submission
-		console.log('Form submitted:', formData);
+		setLoading(true);
+		setStatus(null);
+
+		try {
+			const response = await axios.post('/api/contact/send', formData);
+			
+			if (response.data.success) {
+				setStatus('success');
+				// Reset form
+				setFormData({
+					name: '',
+					email: '',
+					subject: '',
+					message: ''
+				});
+			} else {
+				setStatus('error');
+			}
+		} catch (error) {
+			console.error('Error sending message:', error);
+			setStatus('error');
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -81,11 +107,37 @@ const ContactForm = () => {
 									required
 								></textarea>
 							</div>
+							{/* Status Messages */}
+							{status === 'success' && (
+								<div className='mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg flex items-center'>
+									<CheckCircle className='w-5 h-5 mr-2' />
+									Message sent successfully! We'll get back to you soon.
+								</div>
+							)}
+
+							{status === 'error' && (
+								<div className='mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center'>
+									<AlertCircle className='w-5 h-5 mr-2' />
+									Failed to send message. Please try again.
+								</div>
+							)}
+
 							<button
 								type="submit"
-								className='w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition duration-300'
+								disabled={loading}
+								className='w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 rounded-lg font-semibold transition duration-300 flex items-center justify-center'
 							>
-								Send Message
+								{loading ? (
+									<>
+										<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+										Sending...
+									</>
+								) : (
+									<>
+										<Send className='w-4 h-4 mr-2' />
+										Send Message
+									</>
+								)}
 							</button>
 						</form>
 					</div>

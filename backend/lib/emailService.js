@@ -87,6 +87,110 @@ class EmailService {
     }
   }
 
+  async sendContactFormEmail(contactData) {
+    try {
+      const { name, email, subject, message } = contactData;
+
+      const emailHTML = this.generateContactFormHTML(contactData);
+
+      const mailOptions = {
+        from: `"GlobalLogistics Contact Form" <${process.env.EMAIL_USER}>`,
+        to: this.adminEmail,
+        subject: `Contact Form: ${subject}`,
+        html: emailHTML,
+        replyTo: email
+      };
+
+      const result = await this.transporter.sendMail(mailOptions);
+      console.log(`Contact form email sent successfully from ${email}:`, result.messageId);
+      return { success: true, messageId: result.messageId };
+
+    } catch (error) {
+      console.error('Failed to send contact form email:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  generateContactFormHTML(contactData) {
+    const { name, email, subject, message } = contactData;
+
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact Form Submission</title>
+      </head>
+      <body style="margin: 0; padding: 0; background-color: #f9fafb; font-family: Arial, sans-serif;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+
+          <!-- Header -->
+          <div style="background: linear-gradient(135deg, #10b981, #059669); padding: 30px 20px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">GlobalLogistics</h1>
+            <p style="color: rgba(255, 255, 255, 0.9); margin: 5px 0 0 0; font-size: 16px;">
+              New Contact Form Submission
+            </p>
+          </div>
+
+          <!-- Content -->
+          <div style="padding: 30px 20px;">
+
+            <!-- Contact Details -->
+            <div style="background-color: #f3f4f6; border-left: 4px solid #10b981; padding: 20px; margin: 25px 0; border-radius: 0 8px 8px 0;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Contact Information</h3>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 8px 0; color: #6b7280; font-weight: 500; width: 100px;">Name:</td>
+                  <td style="padding: 8px 0; color: #1f2937;">${name}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 8px 0; color: #6b7280; font-weight: 500;">Email:</td>
+                  <td style="padding: 8px 0; color: #1f2937;"><a href="mailto:${email}" style="color: #10b981; text-decoration: none;">${email}</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #6b7280; font-weight: 500;">Subject:</td>
+                  <td style="padding: 8px 0; color: #1f2937; font-weight: 600;">${subject}</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Message -->
+            <div style="margin: 25px 0;">
+              <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px;">Message</h3>
+              <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px;">
+                <p style="color: #1f2937; margin: 0; line-height: 1.6; white-space: pre-wrap;">${message}</p>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="background-color: #f0f9ff; border: 1px solid #0ea5e9; padding: 20px; border-radius: 8px; margin: 25px 0;">
+              <p style="color: #0c4a6e; margin: 0 0 10px 0; font-weight: 600;">Quick Actions:</p>
+              <p style="color: #0c4a6e; margin: 0; font-size: 14px;">
+                • Reply directly to this email to respond to ${name}<br>
+                • Email address: <a href="mailto:${email}" style="color: #10b981;">${email}</a><br>
+                • Submitted on: ${new Date().toLocaleString()}
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Footer -->
+          <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+            <p style="color: #6b7280; font-size: 14px; margin: 0 0 10px 0;">
+              This message was sent via the contact form on GlobalLogistics website
+            </p>
+            <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+              © ${new Date().getFullYear()} GlobalLogistics. All rights reserved.
+            </p>
+          </div>
+
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
   generateEmailHTML(shipment, isForSender) {
     const recipient = isForSender ? shipment.sender : shipment.recipient;
     const otherParty = isForSender ? shipment.recipient : shipment.sender;
