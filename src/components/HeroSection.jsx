@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Package, ArrowRight, Search, X } from "lucide-react";
 import { useShipmentStore } from "../stores/useShipmentStore";
 
@@ -15,6 +16,7 @@ const HeroSection = () => {
 	const [showTrackingInput, setShowTrackingInput] = useState(false);
 	const [trackingNumber, setTrackingNumber] = useState("");
 	const { trackShipment, loading } = useShipmentStore();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -29,11 +31,11 @@ const HeroSection = () => {
 
 		try {
 			await trackShipment(trackingNumber.trim());
-			// Clear the input and hide the tracking form after successful tracking
-			setTrackingNumber("");
-			setShowTrackingInput(false);
+			// Navigate to TrackPage with the tracking number
+			navigate('/track', { state: { trackingNumber: trackingNumber.trim() } });
 		} catch (error) {
 			// Error handling is done in the store
+			// Keep the form open so user can try again
 		}
 	};
 
