@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { MapPin, X } from "lucide-react";
+import { MapPin, X, ChevronDown } from "lucide-react";
 
 const OpenStreetMap = ({
   height = "400px",
@@ -11,6 +11,140 @@ const OpenStreetMap = ({
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markerRef = useRef(null);
+
+  // New state for location selection
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [loadingCountries, setLoadingCountries] = useState(false);
+  const [loadingStates, setLoadingStates] = useState(false);
+
+  // Fetch countries on component mount
+  useEffect(() => {
+    const fetchCountries = async () => {
+      setLoadingCountries(true);
+      try {
+        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2,latlng');
+        const data = await response.json();
+
+        // Sort countries alphabetically and filter out those without coordinates
+        const sortedCountries = data
+          .filter(country => country.latlng && country.latlng.length >= 2)
+          .sort((a, b) => a.name.common.localeCompare(b.name.common))
+          .map(country => ({
+            name: country.name.common,
+            code: country.cca2,
+            lat: country.latlng[0],
+            lng: country.latlng[1]
+          }));
+
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      } finally {
+        setLoadingCountries(false);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  // Fetch states/provinces when country changes
+  useEffect(() => {
+    if (!selectedCountry) {
+      setStates([]);
+      setSelectedState("");
+      return;
+    }
+
+    const fetchStates = async () => {
+      setLoadingStates(true);
+      try {
+        const country = countries.find(c => c.code === selectedCountry);
+        if (!country) return;
+
+        // Use Nominatim to search for administrative divisions (states/provinces)
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?` +
+          `country=${encodeURIComponent(country.name)}&` +
+          `featuretype=state&` +
+          `format=json&` +
+          `limit=20&` +
+          `addressdetails=1`
+        );
+
+        let data = await response.json();
+
+        // If no states found, try searching for major cities instead
+        if (data.length === 0) {
+          const cityResponse = await fetch(
+            `https://nominatim.openstreetmap.org/search?` +
+            `country=${encodeURIComponent(country.name)}&` +
+            `featuretype=city&` +
+            `format=json&` +
+            `limit=15&` +
+            `addressdetails=1`
+          );
+          data = await cityResponse.json();
+        }
+
+        // Process and deduplicate results
+        const processedStates = data
+          .filter(item => item.lat && item.lon && item.display_name)
+          .map(item => ({
+            name: item.display_name.split(',')[0].trim(),
+            lat: parseFloat(item.lat),
+            lng: parseFloat(item.lon),
+            fullName: item.display_name
+          }))
+          .filter((state, index, array) => 
+            // Remove duplicates based on name
+            array.findIndex(s => s.name === state.name) === index
+          )
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .slice(0, 20); // Limit to 20 results
+
+        setStates(processedStates);
+      } catch (error) {
+        console.error('Error fetching states:', error);
+        setStates([]);
+      } finally {
+        setLoadingStates(false);
+      }
+    };
+
+    fetchStates();
+  }, [selectedCountry, countries]);
+
+  // Handle country selection
+  const handleCountryChange = (countryCode) => {
+    setSelectedCountry(countryCode);
+    setSelectedState("");
+
+    if (countryCode && mapInstanceRef.current) {
+      const country = countries.find(c => c.code === countryCode);
+      if (country) {
+        // Move map to country and place marker
+        mapInstanceRef.current.setView([country.lat, country.lng], 6);
+        placeMarker(country.lat, country.lng, mapInstanceRef.current, false);
+      }
+    }
+  };
+
+  // Handle state selection
+  const handleStateChange = (stateIndex) => {
+    setSelectedState(stateIndex);
+
+    if (stateIndex !== "" && mapInstanceRef.current) {
+      const state = states[parseInt(stateIndex)];
+      if (state) {
+        // Move map to state/city and place marker
+        mapInstanceRef.current.setView([state.lat, state.lng], 10);
+        placeMarker(state.lat, state.lng, mapInstanceRef.current, false);
+      }
+    }
+  };
 
   // Separate effect for map initialization (runs only once)
   useEffect(() => {
@@ -157,7 +291,7 @@ const OpenStreetMap = ({
       mapInstanceRef.current = map;
     };
 
-    const placeMarker = (lat, lng, map) => {
+    const placeMarker = (lat, lng, map, updateCoordinates = true) => {
       // Custom pin icon for shipment location
       const shipmentIcon = window.L.divIcon({
         html: `<div style="position: relative;">
@@ -233,7 +367,7 @@ const OpenStreetMap = ({
       }
 
       // Update coordinates
-      if (onCoordinatesChange) {
+      if (updateCoordinates && onCoordinatesChange) {
         onCoordinatesChange({
           latitude: lat,
           longitude: lng,
@@ -336,11 +470,93 @@ const OpenStreetMap = ({
   }, [selectedCoordinates, interactive, onCoordinatesChange]);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
+      {/* Location Selection Dropdowns */}
+      <div className="bg-gray-800 p-4 rounded-lg">
+        <h3 className="text-lg font-semibold text-white mb-3">Select Location</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Country Selection */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-300">
+              Country
+            </label>
+            <div className="relative">
+              <select
+                value={selectedCountry}
+                onChange={(e) => handleCountryChange(e.target.value)}
+                disabled={loadingCountries}
+                className="w-full appearance-none bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+              >
+                <option value="">
+                  {loadingCountries ? "Loading countries..." : "Select a country"}
+                </option>
+                {countries.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            </div>
+          </div>
+
+          {/* State/Province Selection */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-300">
+              State/Province/City
+            </label>
+            <div className="relative">
+              <select
+                value={selectedState}
+                onChange={(e) => handleStateChange(e.target.value)}
+                disabled={!selectedCountry || loadingStates || states.length === 0}
+                className="w-full appearance-none bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+              >
+                <option value="">
+                  {!selectedCountry ? "Select a country first" :
+                   loadingStates ? "Loading locations..." :
+                   states.length === 0 ? "No locations found" :
+                   "Select a location"}
+                </option>
+                {states.map((state, index) => (
+                  <option key={index} value={index}>
+                    {state.name}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            </div>
+          </div>
+        </div>
+
+        {/* Clear Selection Button */}
+        {(selectedCountry || selectedState) && (
+          <div className="mt-3">
+            <button
+              onClick={() => {
+                setSelectedCountry("");
+                setSelectedState("");
+                if (mapInstanceRef.current && markerRef.current) {
+                  mapInstanceRef.current.removeLayer(markerRef.current);
+                  markerRef.current = null;
+                  mapInstanceRef.current.setView([20, 0], defaultZoom);
+                }
+              }}
+              className="flex items-center gap-1 text-sm text-red-400 hover:text-red-300 transition-colors"
+            >
+              <X className="w-4 h-4" />
+              Clear Selection
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Interactive Mode Instructions */}
       {interactive && (
         <div className="text-sm text-gray-400 bg-gray-800 p-3 rounded-lg">
           <strong>Interactive Mode:</strong>
           <ul className="mt-1 space-y-1">
+            <li>• Use the dropdowns above to quickly navigate to a location</li>
             <li>• Desktop: Double-click to place pin</li>
             <li>• Mobile: Press and hold to place pin</li>
             <li>• Click and drag the pin to move it</li>
@@ -348,6 +564,8 @@ const OpenStreetMap = ({
           </ul>
         </div>
       )}
+
+      {/* Map Container */}
       <div
         ref={mapRef}
         style={{ height: height }}
