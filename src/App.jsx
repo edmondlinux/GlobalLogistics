@@ -3,6 +3,10 @@ import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 
 import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import TeamPage from "./pages/TeamPage";
+import TestimonialsPage from "./pages/TestimonialsPage";
+import ContactPage from "./pages/ContactPage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
@@ -36,6 +40,10 @@ function App() {
 
 				<Routes>
 					<Route path='/' element={<HomePage />} />
+					<Route path='/about' element={<AboutPage />} />
+					<Route path='/team' element={<TeamPage />} />
+					<Route path='/testimonials' element={<TestimonialsPage />} />
+					<Route path='/contact' element={<ContactPage />} />
 					<Route path='/track' element={<TrackPage />} />
 					<Route path='/shipments' element={<ShipmentsPage />} />
 					<Route path='/signup' element={!user ? <SignUpPage /> : <Navigate to='/' />} />

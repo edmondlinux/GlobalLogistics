@@ -30,6 +30,30 @@ const Navbar = () => {
 							Home
 						</Link>
 						<Link
+							to={"/about"}
+							className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out'
+						>
+							About
+						</Link>
+						<Link
+							to={"/team"}
+							className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out'
+						>
+							Team
+						</Link>
+						<Link
+							to={"/testimonials"}
+							className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out'
+						>
+							Testimonials
+						</Link>
+						<Link
+							to={"/contact"}
+							className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out'
+						>
+							Contact
+						</Link>
+						<Link
 							to={"/track"}
 							className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out'
 						>
@@ -102,6 +126,34 @@ const Navbar = () => {
 								onClick={closeMenu}
 							>
 								Home
+							</Link>
+							<Link
+								to={"/about"}
+								className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out py-2'
+								onClick={closeMenu}
+							>
+								About
+							</Link>
+							<Link
+								to={"/team"}
+								className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out py-2'
+								onClick={closeMenu}
+							>
+								Team
+							</Link>
+							<Link
+								to={"/testimonials"}
+								className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out py-2'
+								onClick={closeMenu}
+							>
+								Testimonials
+							</Link>
+							<Link
+								to={"/contact"}
+								className='text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out py-2'
+								onClick={closeMenu}
+							>
+								Contact
 							</Link>
 							<Link
 								to={"/track"}
