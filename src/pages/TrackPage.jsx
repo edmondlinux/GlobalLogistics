@@ -379,7 +379,7 @@ const TrackPage = () => {
 													<div className='flex items-center justify-between mb-1'>
 														<p className='font-semibold capitalize text-white'>{event.status.replace('_', ' ')}</p>
 														<p className='text-xs text-gray-400'>
-															{new Date(event.timestamp).toLocaleString()}
+															{new Date(event.timestamp).toLocaleDateString()}
 														</p>
 													</div>
 													<p className='text-gray-300 mb-1'>{event.location}</p>
@@ -419,3 +419,4 @@ const TrackPage = () => {
 };
 
 export default TrackPage;
+```
