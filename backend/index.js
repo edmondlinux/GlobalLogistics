@@ -6,6 +6,7 @@ import path from "path";
 import authRoutes from "./routes/auth.route.js";
 import shipmentRoutes from "./routes/shipment.route.js";
 import contactRoutes from "./routes/contact.route.js";
+import analyticsRoutes from "./routes/analytics.route.js";
 
 import { connectDB } from "./lib/db.js";
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/shipments", shipmentRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
