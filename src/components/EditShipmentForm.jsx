@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useShipmentStore } from "../stores/useShipmentStore";
 import { Package, User, MapPin, Calendar, DollarSign, X } from "lucide-react";
@@ -107,7 +106,7 @@ const EditShipmentForm = ({ shipment, onClose, onUpdate }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		
+
 		const updatedShipmentData = {
 			sender: {
 				name: formData.senderName,
@@ -207,18 +206,15 @@ const EditShipmentForm = ({ shipment, onClose, onUpdate }) => {
 							<div>
 								<label className="block text-sm font-medium text-gray-300 mb-2">Current Location</label>
 								<select
-									type="text"
 									name="currentLocation"
 									value={formData.currentLocation}
 									onChange={handleInputChange}
-									placeholder="Current location"
 									className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
 								>
 									<option value="Origin Location">Origin Location</option>
 									<option value="En Route">En Route</option>
 									<option value="Custom Office">Custom Office</option>
-									<option value="Veterinary Hospital">Veterinary Hospital</option> 
-									
+									<option value="Veterinary Hospital">Veterinary Hospital</option>
 									<option value="Destination">Destination</option>
 								</select>
 							</div>

@@ -118,6 +118,23 @@ export const useShipmentStore = create((set, get) => ({
 		}
 	},
 
+	// Delete shipment (admin only)
+	deleteShipment: async (shipmentId) => {
+		set({ loading: true });
+		try {
+			await axios.delete(`/shipments/admin/${shipmentId}`);
+			set((state) => ({
+				shipments: Array.from(state.shipments || []).filter(shipment => shipment._id !== shipmentId),
+				loading: false
+			}));
+			toast.success("Shipment deleted successfully");
+		} catch (error) {
+			set({ loading: false });
+			toast.error(error.response?.data?.message || "Failed to delete shipment");
+			throw error;
+		}
+	},
+
 	// Clear current shipment
 	clearCurrentShipment: () => {
 		set({ currentShipment: null });

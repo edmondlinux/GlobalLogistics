@@ -1,12 +1,11 @@
-
 import { useEffect, useState } from "react";
 import { useShipmentStore } from "../stores/useShipmentStore";
-import { Package, Clock, CheckCircle, Truck, AlertCircle, MapPin, Edit, Eye } from "lucide-react";
+import { Package, Clock, CheckCircle, Truck, AlertCircle, MapPin, Edit, Eye, Trash2 } from "lucide-react";
 import LoadingSpinner from "./LoadingSpinner";
 import EditShipmentForm from "./EditShipmentForm";
 
 const ShipmentsList = ({ isAdmin = false }) => {
-	const { shipments, loading, getAllShipments, getUserShipments, updateShipmentStatus, updateShipment } = useShipmentStore();
+	const { shipments, loading, getAllShipments, getUserShipments, updateShipmentStatus, updateShipment, deleteShipment } = useShipmentStore();
 	const [statusFilter, setStatusFilter] = useState("all");
 	const [sortBy, setSortBy] = useState("createdAt");
 	const [editingShipment, setEditingShipment] = useState(null);
@@ -45,7 +44,7 @@ const ShipmentsList = ({ isAdmin = false }) => {
 
 	// Ensure shipments is always an array
 	const shipmentsArray = Array.isArray(shipments) ? shipments : (shipments?.shipments || []);
-	
+
 	const filteredShipments = shipmentsArray.filter(shipment => {
 		if (statusFilter === "all") return true;
 		return shipment.status === statusFilter;
@@ -70,6 +69,21 @@ const ShipmentsList = ({ isAdmin = false }) => {
 			setEditingShipment(null);
 		} catch (error) {
 			console.error("Failed to update shipment:", error);
+		}
+	};
+
+	const handleDeleteShipment = async (shipmentId, trackingNumber) => {
+		if (window.confirm(`Are you sure you want to delete shipment #${trackingNumber}? This action cannot be undone.`)) {
+			try {
+				await deleteShipment(shipmentId);
+				if (isAdmin) {
+					getAllShipments();
+				} else {
+					getUserShipments();
+				}
+			} catch (error) {
+				console.error("Failed to delete shipment:", error);
+			}
 		}
 	};
 
@@ -158,6 +172,13 @@ const ShipmentsList = ({ isAdmin = false }) => {
 										>
 											<Edit className="w-4 h-4" />
 											Edit
+										</button>
+										<button
+											onClick={() => handleDeleteShipment(shipment._id, shipment.trackingNumber)}
+											className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-medium transition duration-300 flex items-center gap-2"
+										>
+											<Trash2 className="w-4 h-4" />
+											Delete
 										</button>
 									</div>
 								)}
