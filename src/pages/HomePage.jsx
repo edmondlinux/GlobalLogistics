@@ -352,7 +352,7 @@ const HomePage = () => {
 							<ArrowRight className='ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform' />
 						</button>
 						<button className='border-2 border-white hover:bg-white hover:text-emerald-600 px-8 py-4 rounded-lg font-semibold text-lg transition duration-300'>
-							Call: +1 (555) 123-4567
+							Email: support@g-logistics.site
 						</button>
 					</div>
 				</div>

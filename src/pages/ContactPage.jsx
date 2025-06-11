@@ -210,12 +210,11 @@ const ContactPage = () => {
 								<h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Contact</h3>
 								<div className="space-y-4">
 									<div className="flex items-center">
-										<Phone className="w-5 h-5 text-emerald-600 mr-3" />
-										<span className="text-gray-700">+1 (555) 123-4567</span>
+										
 									</div>
 									<div className="flex items-center">
 										<Mail className="w-5 h-5 text-emerald-600 mr-3" />
-										<span className="text-gray-700">info@globallogistics.com</span>
+										<span className="text-gray-700">support@g-logistics.site</span>
 									</div>
 									<div className="flex items-center">
 										<Clock className="w-5 h-5 text-emerald-600 mr-3" />
@@ -232,7 +231,7 @@ const ContactPage = () => {
 								</p>
 								<div className="flex items-center">
 									<Phone className="w-5 h-5 text-red-600 mr-3" />
-									<span className="text-red-800 font-semibold">+1 (555) 911-SHIP</span>
+									<span className="text-gray-700">support@g-logistics.site</span>
 								</div>
 							</div>
 
@@ -259,7 +258,7 @@ const ContactPage = () => {
 				</div>
 			</section>
 
-			{/* Global Offices Section */}
+			{/* Global Offices Section 
 			<section className="py-20 bg-white">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<motion.div
@@ -304,7 +303,7 @@ const ContactPage = () => {
 						))}
 					</div>
 				</div>
-			</section>
+			</section>*/}
 
 			{/* Map Section */}
 			<section className="py-20 bg-gray-100">
@@ -324,7 +323,7 @@ const ContactPage = () => {
 						<div className="text-center">
 							<MapPin className="w-16 h-16 text-gray-500 mx-auto mb-4" />
 							<p className="text-gray-600">Interactive Map Coming Soon</p>
-							<p className="text-gray-500 text-sm">1234 Logistics Ave, New York, NY 10001</p>
+							<p className="text-gray-500 text-sm"></p>
 						</div>
 					</div>
 				</div>

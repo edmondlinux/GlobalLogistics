@@ -18,7 +18,7 @@ const TeamPage = () => {
 			bio: "With over 20 years in logistics, Robert leads our global operations with vision and innovation.",
 			email: "r.johnson@globallogistics.com",
 			linkedin: "#",
-			image: "https://api.dicebear.com/7.x/portraits/svg?seed=robert&backgroundColor=10b981"
+			image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 		},
 		{
 			name: "Sarah Chen",
@@ -26,7 +26,7 @@ const TeamPage = () => {
 			bio: "Sarah oversees our day-to-day operations ensuring excellence in service delivery worldwide.",
 			email: "s.chen@globallogistics.com",
 			linkedin: "#",
-			image: "https://api.dicebear.com/7.x/portraits/svg?seed=sarah&backgroundColor=059669"
+			image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 		},
 		{
 			name: "Michael Rodriguez",
@@ -34,7 +34,7 @@ const TeamPage = () => {
 			bio: "Michael drives our technology initiatives, keeping us at the forefront of logistics innovation.",
 			email: "m.rodriguez@globallogistics.com",
 			linkedin: "#",
-			image: "https://api.dicebear.com/7.x/portraits/svg?seed=michael&backgroundColor=047857"
+			image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 		},
 		{
 			name: "Emily Watson",
@@ -42,7 +42,7 @@ const TeamPage = () => {
 			bio: "Emily manages our financial strategy and ensures sustainable growth across all markets.",
 			email: "e.watson@globallogistics.com",
 			linkedin: "#",
-			image: "https://api.dicebear.com/7.x/portraits/svg?seed=emily&backgroundColor=065f46"
+			image: "https://images.unsplash.com/photo-1619895862022-09114b41f16f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 		}
 	];
 
@@ -55,22 +55,22 @@ const TeamPage = () => {
 				{
 					name: "David Kim",
 					position: "Operations Director",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=david&backgroundColor=10b981"
+					image: "https://plus.unsplash.com/premium_photo-1689708721750-8a0e6dc14cee?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "Lisa Thompson",
 					position: "Regional Manager - Americas",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=lisa&backgroundColor=059669"
+					image: "https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "Ahmed Hassan",
 					position: "Regional Manager - EMEA",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=ahmed&backgroundColor=047857"
+					image: "https://plus.unsplash.com/premium_photo-1689565611422-b2156cc65e47?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "Yuki Tanaka",
 					position: "Regional Manager - APAC",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=yuki&backgroundColor=065f46"
+					image: "https://plus.unsplash.com/premium_photo-1689629870780-5d0e655383e6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				}
 			]
 		},
@@ -82,22 +82,22 @@ const TeamPage = () => {
 				{
 					name: "Jennifer Martinez",
 					position: "Customer Success Director",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=jennifer&backgroundColor=10b981"
+					image: "https://plus.unsplash.com/premium_photo-1689551671548-79ff30459d2a?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "Tom Wilson",
 					position: "Account Manager",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=tom&backgroundColor=059669"
+					image: "https://plus.unsplash.com/premium_photo-1690295364571-d2d06159e0a7?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "Maria Garcia",
 					position: "Support Specialist",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=maria&backgroundColor=047857"
+					image: "https://plus.unsplash.com/premium_photo-1689551671541-31a345ce6ae0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "James Brown",
 					position: "Training Coordinator",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=james&backgroundColor=065f46"
+					image: "https://plus.unsplash.com/premium_photo-1689747698547-271d2d553cee?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				}
 			]
 		},
@@ -109,22 +109,22 @@ const TeamPage = () => {
 				{
 					name: "Alex Petrov",
 					position: "Lead Developer",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=alex&backgroundColor=10b981"
+					image: "https://plus.unsplash.com/premium_photo-1689977927774-401b12d137d6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "Priya Sharma",
 					position: "Data Analyst",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=priya&backgroundColor=059669"
+					image: "https://plus.unsplash.com/premium_photo-1690294614341-cf346ba0a637?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "Carlos Lopez",
 					position: "System Administrator",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=carlos&backgroundColor=047857"
+					image: "https://plus.unsplash.com/premium_photo-1689530775582-83b8abdb5020?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				},
 				{
 					name: "Rachel Green",
 					position: "UX Designer",
-					image: "https://api.dicebear.com/7.x/portraits/svg?seed=rachel&backgroundColor=065f46"
+					image: "https://plus.unsplash.com/premium_photo-1690296204289-14e517830d8e?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 				}
 			]
 		}
